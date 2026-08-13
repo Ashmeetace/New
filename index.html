@@ -485,9 +485,133 @@
     .matrix-col, .spinner::after, .equalizer span, .rec-dot .dot, .glitch-wrap:hover .hero-name{ animation:none !important; }
   }
   /* ================= end decorative additions ================= */
+
+  /* ================= realism + futuristic layer ================= */
+
+  /* screen curvature illusion */
+  body::after{
+    content:"";
+    position:fixed; inset:0; pointer-events:none; z-index:249;
+    box-shadow:inset 0 0 140px rgba(0,0,0,.65), inset 0 0 40px rgba(0,0,0,.5);
+    border-radius: 2vw / 1vw;
+  }
+
+  /* power-on boot flicker */
+  body.booting{ animation:powerOn .7s ease-out; }
+  @keyframes powerOn{
+    0%{ filter:brightness(3.5); transform:scaleY(.01); opacity:0; }
+    15%{ filter:brightness(4); transform:scaleY(1); opacity:1; }
+    22%{ filter:brightness(.3); }
+    30%{ filter:brightness(2.5); }
+    40%{ filter:brightness(1); }
+    100%{ filter:brightness(1); transform:scaleY(1); opacity:1; }
+  }
+
+  /* rolling scanline */
+  .rolling-scan{
+    position:fixed; left:0; right:0; height:90px;
+    background:linear-gradient(to bottom, transparent, rgba(57,255,106,.05) 45%, rgba(57,255,106,.09) 50%, rgba(57,255,106,.05) 55%, transparent);
+    pointer-events:none; z-index:248;
+    animation:rollScan 7s linear infinite;
+  }
+  @keyframes rollScan{ 0%{ top:-90px; } 100%{ top:100vh; } }
+
+  /* grain noise overlay */
+  .grain-overlay{
+    position:fixed; inset:0; z-index:247; pointer-events:none;
+    opacity:.035; mix-blend-mode:overlay;
+  }
+
+  /* chromatic aberration on headings */
+  h1, h2, .fname, .entry-titlebar h3{
+    text-shadow: .5px 0 var(--cyan), -.5px 0 var(--red);
+  }
+
+  /* holographic glow on panels */
+  .panel{ animation:panelGlow 5s ease-in-out infinite; }
+  @keyframes panelGlow{
+    0%,100%{ box-shadow:0 0 0 rgba(57,255,106,0); }
+    50%{ box-shadow:0 0 14px rgba(57,255,106,.09); }
+  }
+
+  /* scan-light hover sweep for buttons and links */
+  .term-btn, .contact-links a, .gh-repo, .term-link{ position:relative; overflow:hidden; }
+  .term-btn::before, .contact-links a::before, .gh-repo::before, .term-link::before{
+    content:""; position:absolute; top:0; left:-60%; width:40%; height:100%;
+    background:linear-gradient(100deg, transparent, rgba(57,255,106,.35), transparent);
+    transform:skewX(-18deg);
+    transition:left .5s ease;
+    pointer-events:none;
+  }
+  .term-btn:hover::before, .contact-links a:hover::before, .gh-repo:hover::before, .term-link:hover::before{ left:130%; }
+
+  /* 3D perspective grid floor (hero) */
+  .grid-floor{
+    position:absolute; left:0; right:0; bottom:-10px; height:180px;
+    overflow:hidden; pointer-events:none; z-index:0;
+    -webkit-mask-image:linear-gradient(to top, black, transparent);
+    mask-image:linear-gradient(to top, black, transparent);
+  }
+  .grid-floor svg{ width:100%; height:100%; }
+  .grid-floor path{ stroke:var(--green-dim); stroke-width:1; opacity:.5; }
+
+  /* radar sweep widget */
+  .radar{
+    position:fixed; bottom:76px; right:20px; z-index:59;
+    width:52px; height:52px; border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--bg-panel);
+    overflow:hidden;
+  }
+  .radar::before{
+    content:""; position:absolute; inset:0;
+    background:conic-gradient(from 0deg, rgba(57,255,106,.55), transparent 32%);
+    animation:radarSpin 2.4s linear infinite;
+  }
+  .radar::after{
+    content:""; position:absolute; inset:0;
+    background-image:
+      radial-gradient(circle, transparent 55%, var(--line) 56%, transparent 57%),
+      radial-gradient(circle, transparent 30%, var(--line) 31%, transparent 32%);
+  }
+  @keyframes radarSpin{ to{ transform:rotate(360deg); } }
+  @media (max-width:860px){ .radar{ display:none; } }
+
+  /* cursor particle trail */
+  .cursor-particle{
+    position:fixed; width:4px; height:4px; border-radius:50%;
+    background:var(--green); pointer-events:none; z-index:245;
+    opacity:.8;
+    animation:particleFade .7s ease-out forwards;
+  }
+  @keyframes particleFade{ to{ opacity:0; transform:scale(.3); } }
+
+  /* section glitch-in (replaces plain fade for a beat) */
+  .glitch-in{ animation:glitchIn .5s steps(6) 1; }
+  @keyframes glitchIn{
+    0%{ clip-path:inset(0 0 92% 0); }
+    20%{ clip-path:inset(30% 0 40% 0); }
+    40%{ clip-path:inset(10% 0 70% 0); }
+    60%{ clip-path:inset(60% 0 10% 0); }
+    80%{ clip-path:inset(0 0 20% 0); }
+    100%{ clip-path:inset(0 0 0 0); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    body.booting{ animation:none; }
+    .rolling-scan, .panel, .radar::before, .glitch-in{ animation:none !important; }
+    .cursor-particle{ display:none; }
+  }
+  /* ================= end realism + futuristic layer ================= */
 </style>
 </head>
-<body>
+<body class="booting">
+
+<div class="rolling-scan" aria-hidden="true"></div>
+<svg class="grain-overlay" aria-hidden="true">
+  <filter id="grainFilter"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter>
+  <rect width="100%" height="100%" filter="url(#grainFilter)"/>
+</svg>
 
 <div class="buffer-bar" id="bufferBar"></div>
 
@@ -539,6 +663,12 @@
     <svg class="wave-divider" viewBox="0 0 1200 46" preserveAspectRatio="none" aria-hidden="true">
       <path d="M0,23 C100,3 200,43 300,23 C400,3 500,43 600,23 C700,3 800,43 900,23 C1000,3 1100,43 1200,23"/>
     </svg>
+    <div class="grid-floor" aria-hidden="true">
+      <svg viewBox="0 0 1200 180" preserveAspectRatio="none">
+        <path d="M600,0 L0,180 M600,0 L120,180 M600,0 L280,180 M600,0 L460,180 M600,0 L740,180 M600,0 L920,180 M600,0 L1080,180 M600,0 L1200,180"/>
+        <path d="M0,150 H1200 M60,110 H1140 M180,75 H1020 M280,45 H920 M360,20 H840"/>
+      </svg>
+    </div>
   </header>
 
   <section id="about">
@@ -759,12 +889,37 @@
 
 </main>
 
+<div class="radar" aria-hidden="true"></div>
+
 <div class="hud" aria-hidden="true">
   <div class="row"><span>🖥️ uptime</span><span id="hudUptime">00:00:00</span></div>
+  <div class="row"><span>📶 ping</span><span id="hudPing">—ms</span></div>
+  <div class="row"><span>⚙️ cpu</span><span id="hudCpu">—%</span></div>
   <div class="row"><span>💾 buffer</span><span id="hudBuffer">0%</span></div>
 </div>
 
 <script>
+  // ---------- boot flicker cleanup ----------
+  window.addEventListener('load', () => {
+    setTimeout(() => document.body.classList.remove('booting'), 750);
+  });
+
+  // ---------- cursor particle trail (desktop only) ----------
+  if (window.matchMedia('(hover:hover)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let lastParticle = 0;
+    document.addEventListener('mousemove', (e) => {
+      const now = Date.now();
+      if (now - lastParticle < 40) return;
+      lastParticle = now;
+      const p = document.createElement('div');
+      p.className = 'cursor-particle';
+      p.style.left = (e.clientX - 2) + 'px';
+      p.style.top = (e.clientY - 2) + 'px';
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 700);
+    });
+  }
+
   // ---------- clock ----------
   const clockEl = document.getElementById('chromeClock');
   function tickClock(){
@@ -826,24 +981,35 @@
     sections.forEach(s => obs.observe(s));
 
     const cardObs = new IntersectionObserver((entries) => {
-      entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting));
+      entries.forEach(e => {
+        e.target.classList.toggle('in-view', e.isIntersecting);
+        if (e.isIntersecting) {
+          e.target.classList.remove('glitch-in');
+          void e.target.offsetWidth; // restart animation
+          e.target.classList.add('glitch-in');
+        }
+      });
     }, { threshold:0.15, rootMargin:'0px 0px -8% 0px' });
     document.querySelectorAll('.entry-panel').forEach(c => cardObs.observe(c));
 
     const revealObs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); revealObs.unobserve(e.target); } });
+      entries.forEach(e => {
+        e.target.classList.toggle('in-view', e.isIntersecting);
+        if (e.isIntersecting) {
+          e.target.classList.remove('glitch-in');
+          void e.target.offsetWidth; // restart animation
+          e.target.classList.add('glitch-in');
+        }
+      });
     }, { threshold:0.15, rootMargin:'0px 0px -6% 0px' });
     document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
     const meterObs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.querySelectorAll('.meter').forEach(m => {
-            const fill = m.querySelector('.meter-fill');
-            if (fill) fill.style.width = m.dataset.level + '%';
-          });
-          meterObs.unobserve(e.target);
-        }
+        e.target.querySelectorAll('.meter').forEach(m => {
+          const fill = m.querySelector('.meter-fill');
+          if (fill) fill.style.width = e.isIntersecting ? (m.dataset.level + '%') : '0%';
+        });
       });
     }, { threshold:0.3 });
     document.querySelectorAll('.meter-block').forEach(b => meterObs.observe(b));
@@ -931,6 +1097,8 @@
   // ---------- HUD: session uptime + buffer readout ----------
   const hudUptime = document.getElementById('hudUptime');
   const hudBuffer = document.getElementById('hudBuffer');
+  const hudPing = document.getElementById('hudPing');
+  const hudCpu = document.getElementById('hudCpu');
   const sessionStart = Date.now();
   function updateHud(){
     if (hudUptime) {
@@ -941,6 +1109,8 @@
       hudUptime.textContent = `${h}:${m}:${s}`;
     }
     if (hudBuffer && bufferBar) hudBuffer.textContent = Math.round(parseFloat(bufferBar.style.width) || 0) + '%';
+    if (hudPing) hudPing.textContent = (10 + Math.round(Math.random() * 14)) + 'ms';
+    if (hudCpu) hudCpu.textContent = (18 + Math.round(Math.random() * 22)) + '%';
   }
   setInterval(updateHud, 1000);
   updateHud();
