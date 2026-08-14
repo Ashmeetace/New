@@ -588,7 +588,7 @@
   @keyframes particleFade{ to{ opacity:0; transform:scale(.3); } }
 
   /* section glitch-in (replaces plain fade for a beat) */
-  .glitch-in{ animation:glitchIn .5s steps(6) 1; }
+  .glitch-in{ animation:glitchIn .5s steps(6) 2; }
   @keyframes glitchIn{
     0%{ clip-path:inset(0 0 92% 0); }
     20%{ clip-path:inset(30% 0 40% 0); }
@@ -992,11 +992,9 @@
 
       const cardObs = new IntersectionObserver((entries) => {
         entries.forEach(e => {
-          e.target.classList.toggle('in-view', e.isIntersecting);
           if (e.isIntersecting) {
-            e.target.classList.remove('glitch-in');
-            void e.target.offsetWidth; // restart animation
-            e.target.classList.add('glitch-in');
+            e.target.classList.add('in-view', 'glitch-in');
+            cardObs.unobserve(e.target);
           }
         });
       }, { threshold:0.15, rootMargin:'0px 0px -8% 0px' });
@@ -1004,11 +1002,9 @@
 
       const revealObs = new IntersectionObserver((entries) => {
         entries.forEach(e => {
-          e.target.classList.toggle('in-view', e.isIntersecting);
           if (e.isIntersecting) {
-            e.target.classList.remove('glitch-in');
-            void e.target.offsetWidth; // restart animation
-            e.target.classList.add('glitch-in');
+            e.target.classList.add('in-view', 'glitch-in');
+            revealObs.unobserve(e.target);
           }
         });
       }, { threshold:0.15, rootMargin:'0px 0px -6% 0px' });
