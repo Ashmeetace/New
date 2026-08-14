@@ -691,8 +691,9 @@
         <span class="corner-tick tl"></span><span class="corner-tick br"></span>
         <div class="panel-head"><div class="dots"><span class="d1"></span><span class="d2"></span><span class="d3"></span></div><span class="fname">about.md</span></div>
         <div class="panel-body">
-          <p><span class="sym">&gt;</span> I'm an undergrad in Data Science &amp; AI at Masters' Union School of Business, out of Delhi Public School, HRIT Campus. I like picking up new tools quickly and testing them against real projects rather than just tutorials.</p>
-          <p><span class="sym">&gt;</span> Most of what I know, I've learned by shipping first and understanding the theory after — I built a school records system with a properly normalized MySQL schema before I'd fully learned relational design, then went back and filled the gaps. I'm comfortable with documentation work too, typing at 39–40 WPM with 95% accuracy.</p>
+          <p><span class="sym">&gt;</span> I'm an undergraduate in Data Science &amp; AI at Masters' Union School of Business, having completed my schooling at Delhi Public School, HRIT Campus (CBSE). My academic work sits at the intersection of statistical reasoning, programming, and applied problem-solving, and I've tried to keep my coursework grounded by pairing it with independent, self-directed projects rather than treating it as a purely theoretical track.</p>
+          <p><span class="sym">&gt;</span> My working style leans toward building first and formalizing the theory afterward. The School Management System in this session is a good example — I designed and implemented a normalized MySQL schema before I'd fully studied relational database theory in a classroom setting, then went back and closed the gaps once I understood where my design choices held up and where they didn't. I've found that this build-then-backfill approach surfaces the kind of practical, edge-case questions that a purely top-down approach to learning tends to skip.</p>
+          <p><span class="sym">&gt;</span> Beyond core programming, I'm comfortable across the Microsoft Office stack (Excel, Word, PowerPoint) and Power BI, and I bring reasonably strong documentation and typing throughput — 39–40 WPM at 95% accuracy — which matters more than it sounds like for admin-heavy work such as data entry, reporting, and structured writeups. I'm trilingual (Hindi, English, Punjabi), comfortable working independently or as part of a small team, and currently exploring internship opportunities across data analytics, Python development, web development, and content/growth roles — anywhere the work involves turning ambiguous problems into something concrete and testable.</p>
           <div class="equalizer" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
         </div>
       </div>
@@ -749,7 +750,9 @@
             <span class="status-tag live">✅ status: live</span>
           </div>
           <p class="entry-cmd"><span class="sym">$</span> ./run school_portal.py</p>
-          <p class="entry-desc">A menu-driven student management system with separate Admin and User panels — Python handles the backend logic, MySQL holds three normalized tables (Student_Details, Teacher, Feedback) with ENUM fields for things like sex and stream. Full CRUD for students and teachers, a dynamic field-picker so admins can update one attribute without rewriting the whole record, partial-match search via SQL LIKE, and parameterized queries throughout to keep user input safe from injection.</p>
+          <p class="entry-desc">A menu-driven student and staff records system built to demonstrate a complete, correctly normalized data layer rather than a flat-file prototype. The backend is written in Python and connects to a MySQL database via mysql.connector, with the schema split across three related tables — Student_Details, Teacher, and Feedback — using ENUM fields for constrained attributes like sex and academic stream, and foreign-key relationships to keep the data consistent rather than duplicated.</p>
+          <p class="entry-desc" style="margin-top:14px;">The application is split into separate Admin and User panels, reflecting a real access-control boundary: administrators get full CRUD on both student and teacher records, including a dynamic field-picker that lets them update a single attribute without resubmitting the entire record, while regular users get read-only, search-oriented views. Search itself supports partial matches through SQL's LIKE operator rather than requiring exact input, and every query in the system — from lookups to updates — is parameterized to prevent SQL injection, which was a deliberate design decision rather than an afterthought once the CRUD logic was working.</p>
+          <p class="entry-desc" style="margin-top:14px;">This project was as much an exercise in relational database design as it was in Python — figuring out where to normalize, where a join was cheaper than denormalized convenience, and how to structure menu-driven logic so it stays readable as the feature set grows.</p>
           <p class="entry-comment"><span class="sym"># admin login:</span> Schoolsystem</p>
 
           <div class="viewer" id="ssCarousel">
@@ -782,7 +785,9 @@
             <span class="status-tag live">✅ status: live</span>
           </div>
           <p class="entry-cmd"><span class="sym">$</span> ./run route_log.js</p>
-          <p class="entry-desc">A single-page, calendar-based travel/work-log app with a custom-styled UI — no external frameworks. Each date can hold multiple travel legs (from, to, distance), with distance calculated using the Haversine formula and everything persisted to localStorage. A "Jump to Date" control with dynamic day/month/year dropdowns makes it quick to reach any date, and running totals — distance and days worked — update automatically for both the selected day and the current month.</p>
+          <p class="entry-desc">A single-page, calendar-based travel and work-log application, built with vanilla HTML, CSS, and JavaScript and no external frameworks or libraries. It was designed around a practical need: tracking multiple work-related trips per day — each with its own origin, destination, and distance — in a way that's faster to log than a spreadsheet and more structured than a notes app.</p>
+          <p class="entry-desc" style="margin-top:14px;">Each calendar date can hold multiple travel legs, with the distance for each leg calculated automatically using the Haversine formula rather than requiring manual entry, and the full dataset persisted to the browser's localStorage so there's no backend or account system required. A "Jump to Date" control, built with dynamic day/month/year dropdowns, makes it fast to reach any date directly instead of paging through months one at a time, and running totals — both distance travelled and days worked — update automatically for the selected day as well as the current month, giving an at-a-glance summary without needing a separate reporting view.</p>
+          <p class="entry-desc" style="margin-top:14px;">The interface is fully custom-styled, with a dark-mode pass focused specifically on accessibility — sufficient contrast ratios and readable typography rather than a default inverted color scheme.</p>
 
           <div class="viewer" id="rlCarousel">
             <div class="viewer-track" id="rlTrack"></div>
@@ -814,7 +819,8 @@
             <span class="status-tag live">✅ status: live</span>
           </div>
           <p class="entry-cmd"><span class="sym">$</span> ./run radial_timetable.js</p>
-          <p class="entry-desc">A circular, clock-face weekly timetable with custom category colors — built so a schedule reads at a glance instead of being scanned row by row in a grid.</p>
+          <p class="entry-desc">A circular, clock-face weekly timetable built as an alternative to the conventional grid layout most schedule tools default to. The core idea was legibility under a glance: a 24-hour radial view maps the shape of a day the way a clock does, rather than requiring the viewer to scan rows and columns to reconstruct what's happening when.</p>
+          <p class="entry-desc" style="margin-top:14px;">Each activity block is rendered as a segment on the dial, color-coded by custom category, so recurring patterns — long gaps, back-to-back commitments, free stretches — are visible immediately rather than inferred from a list. Like the other tools in this session, it's built with plain HTML, CSS, and JavaScript, keeping the dependency footprint at zero and the whole thing deployable as a single static page.</p>
           <div class="tag-row"><span class="flag">--html</span><span class="flag">--css</span><span class="flag">--javascript</span></div>
           <div class="entry-foot">
             <span></span>
@@ -834,7 +840,8 @@
             <span class="status-tag progress">🚧 status: building…</span>
           </div>
           <p class="entry-cmd"><span class="sym">$</span> ./build --watch</p>
-          <p class="entry-desc">Two projects currently on the workbench — a scam-checker tool and a skill-exchange platform, both single-file builds headed for GitHub Pages. Links go up here the day they ship.</p>
+          <p class="entry-desc">Two projects currently on the workbench, both single-file builds headed for GitHub Pages once complete. ScamShield is a scam-detection tool: it takes a message or listing as input and returns a verdict — flagged, suspicious, or clear — along with a confidence score, aimed at giving a fast, plain-language second opinion on something that looks off. SkillSwap is a skill-barter platform that matches people offering a skill with people who want to learn it, scored by fit, with direct contact options built in so a match can turn into an actual conversation without extra friction.</p>
+          <p class="entry-desc" style="margin-top:14px;">Both are being built and tested iteratively rather than shipped all at once — links go up here the day each one is stable enough to stand on its own.</p>
           <div class="tag-row"><span class="flag">--html</span><span class="flag">--css</span><span class="flag">--javascript</span></div>
         </div>
       </article>
