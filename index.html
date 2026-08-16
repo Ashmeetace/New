@@ -1,168 +1,769 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ashmeet Singh — Portfolio Variants</title>
-    <meta name="description" content="Explore different themes of Ashmeet Singh's Data Science & AI portfolio.">
+    <title>Ashmeet Singh — Master Portfolio Hub</title>
+    <meta name="description" content="Explore Ashmeet Singh's personal portfolio variants and all four integrated interactive layouts in one self-contained hub file.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --bg-color: #0f172a;
-            --text-main: #f8fafc;
+            --bg-color: #0b0f19;
+            --text-main: #ffffff;
             --text-muted: #94a3b8;
-            --card-bg: #1e293b;
-            --card-hover: #334155;
-            --accent-1: #38bdf8;
-            --accent-2: #fbbf24;
-            --accent-3: #4ade80;
-            --accent-4: #f43f5e;
+            --card-border: rgba(255, 255, 255, 0.18);
+            
+            --pane-1: #f25022; /* Red/Orange top-left */
+            --pane-2: #7fba00; /* Green top-right */
+            --pane-3: #00a4ef; /* Blue bottom-left */
+            --pane-4: #ffb900; /* Yellow bottom-right */
+
+            --blob-1: #ff0080;
+            --blob-2: #7928ca;
+            --blob-3: #00dfd8;
         }
-        
+
+        [data-theme="light"] {
+            --bg-color: #f0f4f8;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --card-border: rgba(0, 0, 0, 0.18);
+            
+            --pane-1: #e8410d;
+            --pane-2: #659a00;
+            --pane-3: #0088cc;
+            --pane-4: #e5a500;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
-            line-height: 1.6;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            padding: 40px 20px;
+            padding: 25px 15px;
+            overflow-x: hidden;
+            position: relative;
         }
 
+        /* --- ANIMATIONS --- */
+        @keyframes floatSlow {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(25px, -35px) scale(1.08); }
+            100% { transform: translate(-15px, 15px) scale(0.95); }
+        }
+        @keyframes pulseGlow {
+            0% { transform: scale(1); box-shadow: 0 10px 20px rgba(0,164,239,0.3); }
+            100% { transform: scale(1.06); box-shadow: 0 20px 40px rgba(127,186,0,0.5); }
+        }
+        @keyframes fadeInSlide {
+            0% { opacity: 0; transform: translateY(15px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes neonPulse {
+            0%, 100% { opacity: 0.4; filter: blur(90px); }
+            50% { opacity: 0.7; filter: blur(100px); }
+        }
+
+        /* Background Gradients */
+        .blob {
+            position: absolute;
+            filter: blur(90px);
+            z-index: -1;
+            opacity: 0.4;
+            animation: floatSlow 14s infinite alternate ease-in-out, neonPulse 7s infinite alternate ease-in-out;
+        }
+        .blob-1 { top: 5%; left: 5%; width: 280px; height: 280px; background: var(--pane-3); }
+        .blob-2 { bottom: 5%; right: 5%; width: 330px; height: 330px; background: var(--pane-2); animation-delay: -3s; }
+        .blob-3 { top: 40%; left: 60%; width: 240px; height: 240px; background: var(--pane-4); animation-delay: -6s; }
+
+        /* Top Bar */
+        .top-bar {
+            width: 100%;
+            max-width: 560px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            z-index: 1;
+            animation: fadeInSlide 0.6s ease-out;
+        }
+
+        .brand-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-main);
+            background: rgba(30, 41, 59, 0.6);
+            padding: 5px 12px;
+            border-radius: 50px;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+        }
+        .brand-badge svg { color: var(--pane-3); }
+
+        .theme-toggle {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 9px;
+            border-radius: 50%;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .theme-toggle:hover { transform: scale(1.1) rotate(15deg); border-color: var(--pane-3); }
+
+        /* Header Layout */
         header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 15px;
+            z-index: 1;
+            animation: fadeInSlide 0.8s ease-out;
         }
 
-        header h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            margin-bottom: 12px;
-        }
-
-        header p {
-            font-size: 1.125rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .variant-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            width: 100%;
-            max-width: 1000px;
-        }
-
-        .variant-card {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 32px 24px;
-            text-decoration: none;
-            color: var(--text-main);
-            transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .variant-card:hover {
-            transform: translateY(-5px);
-            background-color: var(--card-hover);
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-        }
-
-        .card-icon {
-            width: 48px;
-            height: 48px;
+        .hero-graphic {
+            width: 44px;
+            height: 44px;
+            margin: 0 auto 6px auto;
+            background: linear-gradient(135deg, var(--pane-1), var(--pane-3));
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-            font-weight: bold;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            animation: pulseGlow 4s infinite alternate ease-in-out;
+        }
+        .hero-graphic svg { fill: white; width: 22px; height: 22px; }
+
+        header h1 {
+            font-size: clamp(1.5rem, 3.2vw, 2.2rem);
+            font-weight: 800;
+            background: linear-gradient(to right, var(--text-main), var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2px;
         }
 
-        .variant-card h2 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .variant-card p {
-            font-size: 0.95rem;
+        header p {
+            font-size: 0.78rem;
             color: var(--text-muted);
+            max-width: 460px;
+            margin: 0 auto;
         }
 
-        /* Unique Accents for each card */
-        .card-1 .card-icon { background: rgba(56, 189, 248, 0.1); color: var(--accent-1); }
-        .card-2 .card-icon { background: rgba(251, 191, 36, 0.1); color: var(--accent-2); }
-        .card-3 .card-icon { background: rgba(74, 222, 128, 0.1); color: var(--accent-3); }
-        .card-4 .card-icon { background: rgba(244, 63, 94, 0.1); color: var(--accent-4); }
+        /* 10 Personal Skills Ticker */
+        .features-ticker {
+            width: 100%;
+            max-width: 650px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 15px;
+            z-index: 1;
+        }
+        .feature-chip {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid var(--card-border);
+            padding: 3px 9px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--text-main);
+            backdrop-filter: blur(8px);
+        }
+        .feature-chip span { color: var(--pane-3); }
 
+        /* --- WINDOWS LOGO 4-PANE GRID CONTAINER --- */
+        .windows-logo-container {
+            position: relative;
+            width: 100%;
+            max-width: 520px;
+            height: 440px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 12px;
+            z-index: 1;
+            padding: 10px;
+            animation: fadeInSlide 1s ease-out;
+        }
+
+        /* --- WINDOW PANE CARDS --- */
+        .window-pane {
+            position: relative;
+            background: rgba(30, 41, 59, 0.78);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--card-border);
+            cursor: pointer;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 22px 20px;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            text-align: left;
+        }
+
+        .window-pane:hover {
+            transform: translateY(-6px) scale(1.02);
+            z-index: 20;
+            background: rgba(45, 55, 75, 0.95);
+        }
+
+        .pane-1 { border-top: 4px solid var(--pane-1); }
+        .pane-1:hover { border-color: var(--pane-1); box-shadow: 0 15px 35px rgba(242, 80, 34, 0.3); }
+
+        .pane-2 { border-top: 4px solid var(--pane-2); }
+        .pane-2:hover { border-color: var(--pane-2); box-shadow: 0 15px 35px rgba(127, 186, 0, 0.3); }
+
+        .pane-3 { border-top: 4px solid var(--pane-3); }
+        .pane-3:hover { border-color: var(--pane-3); box-shadow: 0 15px 35px rgba(0, 164, 239, 0.3); }
+
+        .pane-4 { border-top: 4px solid var(--pane-4); }
+        .pane-4:hover { border-color: var(--pane-4); box-shadow: 0 15px 35px rgba(255, 185, 0, 0.3); }
+
+        .pane-badge {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            font-size: 0.52rem;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 5;
+        }
+        .badge-1 { background: rgba(242, 80, 34, 0.2); color: var(--pane-1); border: 1px solid rgba(242, 80, 34, 0.3); }
+        .badge-2 { background: rgba(127, 186, 0, 0.2); color: var(--pane-2); border: 1px solid rgba(127, 186, 0, 0.3); }
+        .badge-3 { background: rgba(0, 164, 239, 0.2); color: var(--pane-3); border: 1px solid rgba(0, 164, 239, 0.3); }
+        .badge-4 { background: rgba(255, 185, 0, 0.2); color: var(--pane-4); border: 1px solid rgba(255, 185, 0, 0.3); }
+
+        .pane-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 12px;
+            width: 100%;
+        }
+
+        .pane-header-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pane-icon {
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 8px;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .pane-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--text-main);
+        }
+
+        .pane-desc {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            line-height: 1.35;
+        }
+
+        .pane-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid var(--card-border);
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+
+        .action-prompt {
+            color: var(--pane-3);
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+        .window-pane:hover .action-prompt {
+            text-decoration: underline;
+        }
+
+        /* --- VARIANT FULL-SCREEN VIEWER MODAL --- */
+        #variantModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(5, 8, 15, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            animation: fadeInSlide 0.3s ease-out;
+        }
+
+        .modal-header {
+            width: 100%;
+            padding: 12px 20px;
+            background: rgba(15, 23, 42, 0.9);
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .modal-title-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .modal-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .back-hub-btn {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .back-hub-btn:hover { background: rgba(51, 65, 85, 1); border-color: var(--pane-3); }
+
+        .modal-body {
+            flex-grow: 1;
+            width: 100%;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* Variant Embedded Internal Layout Classes */
+        .variant-view {
+            display: none;
+            width: 100%;
+            min-height: 100%;
+            padding: 30px 20px;
+        }
+        .variant-view.active {
+            display: block;
+        }
+
+        /* Common Styling inside Variant views */
+        .inner-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .inner-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .inner-card h2 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+        .inner-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        .badge-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(0, 164, 239, 0.2);
+            color: var(--pane-3);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 6px;
+            margin-bottom: 6px;
+        }
+
+        /* Terminal Variant Specific Styles */
+        .terminal-box {
+            background: #090d16;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            padding: 20px;
+            color: #38bdf8;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        .terminal-prompt { color: #4ade80; }
+
+        /* Footer Layout */
         footer {
-            margin-top: 80px;
-            font-size: 0.875rem;
+            margin-top: 20px;
+            font-size: 0.72rem;
             color: var(--text-muted);
             text-align: center;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            animation: fadeInSlide 1.2s ease-out;
+        }
+        .footer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(30, 41, 59, 0.6);
+            padding: 3px 8px;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            font-size: 0.68rem;
+            color: var(--text-main);
         }
     </style>
 </head>
 <body>
 
+    <!-- Background Gradients -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="brand-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            Ashmeet Singh Master Hub
+        </div>
+
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark/Light Mode">
+            <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        </button>
+    </div>
+
     <header>
+        <div class="hero-graphic">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+        </div>
         <h1>Ashmeet Singh</h1>
-        <p>Data Science & AI Undergraduate. Choose a portfolio theme to explore my projects and experience.</p>
+        <p>Data Science & AI Undergraduate &bull; Select any window pane below to launch the respective interactive variant inside this single file.</p>
     </header>
 
-    <div class="variant-grid">
-        <!-- Variant 1 -->
-        <a href="Variant/index_1.html" class="variant-card card-1">
-            <div class="card-icon">1</div>
-            <h2>Glassmorphic UI</h2>
-            <p>A sleek, modern interface featuring frosted glass effects, floating cards, and animated gradient backgrounds.</p>
-        </a>
+    <!-- 10 Personal Ticker Items -->
+    <div class="features-ticker">
+        <div class="feature-chip"><span>✦</span> Data Science</div>
+        <div class="feature-chip"><span>✦</span> AI & ML</div>
+        <div class="feature-chip"><span>✦</span> Python</div>
+        <div class="feature-chip"><span>✦</span> Neural Networks</div>
+        <div class="feature-chip"><span>✦</span> UI/UX Design</div>
+        <div class="feature-chip"><span>✦</span> Full-Stack Dev</div>
+        <div class="feature-chip"><span>✦</span> Analytics</div>
+        <div class="feature-chip"><span>✦</span> Problem Solver</div>
+        <div class="feature-chip"><span>✦</span> Research</div>
+        <div class="feature-chip"><span>✦</span> Single-File Hub</div>
+    </div>
 
-        <!-- Variant 2 -->
-        <a href="Variant/index_2.html" class="variant-card card-2">
-            <div class="card-icon">2</div>
-            <h2>Structured Document</h2>
-            <p>A clean, academic layout styled like a polished research paper or technical documentation.</p>
-        </a>
+    <!-- --- WINDOWS LOGO 4-PANE GRID LAYOUT --- -->
+    <div class="windows-logo-container">
+        
+        <!-- Pane 1: Top-Left (Variant 1 - Glassmorphic Core AI) -->
+        <div class="window-pane pane-1" onclick="openVariant('variant-1')">
+            <div class="pane-badge badge-1">Pane 01 &bull; Core AI</div>
+            <div class="pane-content">
+                <div class="pane-header-row">
+                    <div class="pane-icon">🧠</div>
+                    <div class="pane-title">AI & Machine Learning</div>
+                </div>
+                <div class="pane-desc">Explore Ashmeet's machine learning models, neural network architectures, and data science research.</div>
+            </div>
+            <div class="pane-footer-row">
+                <span>📂 Projects</span>
+                <span class="action-prompt">View Models &rarr;</span>
+            </div>
+        </div>
 
-        <!-- Variant 3 -->
-        <a href="Variant/index_3.html" class="variant-card card-3">
-            <div class="card-icon">3</div>
-            <h2>Terminal CLI</h2>
-            <p>An immersive, futuristic command-line interface featuring cyberpunk aesthetics and ASCII art.</p>
-        </a>
+        <!-- Pane 2: Top-Right (Variant 2 - Academic Research Dossier) -->
+        <div class="window-pane pane-2" onclick="openVariant('variant-2')">
+            <div class="pane-badge badge-2">Pane 02 &bull; Research</div>
+            <div class="pane-content">
+                <div class="pane-header-row">
+                    <div class="pane-icon">📊</div>
+                    <div class="pane-title">Academic Dossier</div>
+                </div>
+                <div class="pane-desc">Review Ashmeet's structured research papers, technical write-ups, and data analysis reports.</div>
+            </div>
+            <div class="pane-footer-row">
+                <span>📄 Research</span>
+                <span class="action-prompt">Read Papers &rarr;</span>
+            </div>
+        </div>
 
-        <!-- Variant 4 -->
-        <a href="Variant/index_4.html" class="variant-card card-4">
-            <div class="card-icon">4</div>
-            <h2>Playful Sticker</h2>
-            <p>A vibrant, interactive layout with bold colors, tactile sticker effects, and dynamic animations.</p>
-        </a>
+        <!-- Pane 3: Bottom-Left (Variant 3 - Terminal CLI Shell) -->
+        <div class="window-pane pane-3" onclick="openVariant('variant-3')">
+            <div class="pane-badge badge-3">Pane 03 &bull; Code</div>
+            <div class="pane-content">
+                <div class="pane-header-row">
+                    <div class="pane-icon">💻</div>
+                    <div class="pane-title">Interactive Terminal CLI</div>
+                </div>
+                <div class="pane-desc">Interact directly with Ashmeet's custom command-line interface and software development logs.</div>
+            </div>
+            <div class="pane-footer-row">
+                <span>⚡ Shell</span>
+                <span class="action-prompt">Open Terminal &rarr;</span>
+            </div>
+        </div>
+
+        <!-- Pane 4: Bottom-Right (Variant 4 - Creative UI Showcase) -->
+        <div class="window-pane pane-4" onclick="openVariant('variant-4')">
+            <div class="pane-badge badge-4">Pane 04 &bull; Creative</div>
+            <div class="pane-content">
+                <div class="pane-header-row">
+                    <div class="pane-icon">✨</div>
+                    <div class="pane-title">Creative UI & Showcase</div>
+                </div>
+                <div class="pane-desc">Experience Ashmeet's playful sticker layouts, visual designs, and dynamic interactive elements.</div>
+            </div>
+            <div class="pane-footer-row">
+                <span>🎨 Visuals</span>
+                <span class="action-prompt">Explore UI &rarr;</span>
+            </div>
+        </div>
+
     </div>
 
     <footer>
-        &copy; 2026 Ashmeet Singh. View repository on GitHub.
+        <div class="footer-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            Ashmeet Singh Portfolio Hub 2026
+        </div>
+        &copy; Ashmeet Singh &bull; All Rights Reserved
     </footer>
 
+
+    <!-- --- EMBEDDED MODAL CONTAINER FOR ALL 4 VARIANTS --- -->
+    <div id="variantModal">
+        <div class="modal-header">
+            <div class="modal-title-info" id="modalTitle">
+                <span>💎</span> Variant View
+            </div>
+            <div class="modal-controls">
+                <button class="back-hub-btn" onclick="closeVariant()">
+                    &larr; Back to Hub
+                </button>
+            </div>
+        </div>
+        <div class="modal-body">
+
+            <!-- VARIANT 1: Glassmorphic AI Core -->
+            <div id="variant-1" class="variant-view">
+                <div class="inner-container">
+                    <div class="inner-card" style="border-top: 4px solid var(--pane-1);">
+                        <h2>Variant 1: Glassmorphic AI & Data Science</h2>
+                        <p>Welcome to Ashmeet Singh's primary AI research portal. This variant highlights advanced data science projects, neural network design, and predictive modeling algorithms built with Python and modern ML frameworks.</p>
+                        <div>
+                            <span class="badge-tag">Python</span>
+                            <span class="badge-tag">TensorFlow</span>
+                            <span class="badge-tag">PyTorch</span>
+                            <span class="badge-tag">Data Analysis</span>
+                        </div>
+                    </div>
+                    <div class="inner-card">
+                        <h2>Key Projects & Focus Areas</h2>
+                        <p>&bull; <strong>Neural Network Classifier:</strong> High-accuracy deep learning architecture for predictive classification.</p>
+                        <p>&bull; <strong>Automated Data Pipeline:</strong> End-to-end data ingestion, cleaning, and exploratory data analysis framework.</p>
+                        <p>&bull; <strong>Statistical Modeling:</strong> Advanced stochastic modeling and regression analysis for real-world datasets.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VARIANT 2: Academic & Research Dossier -->
+            <div id="variant-2" class="variant-view">
+                <div class="inner-container">
+                    <div class="inner-card" style="border-top: 4px solid var(--pane-2);">
+                        <h2>Variant 2: Academic Dossier & Research Papers</h2>
+                        <p>Structured academic document layout detailing Ashmeet Singh's rigorous theoretical background, scientific publications, technical reports, and algorithmic evaluations.</p>
+                        <div>
+                            <span class="badge-tag">Research Writing</span>
+                            <span class="badge-tag">LaTeX</span>
+                            <span class="badge-tag">Algorithm Design</span>
+                            <span class="badge-tag">Peer Review</span>
+                        </div>
+                    </div>
+                    <div class="inner-card">
+                        <h2>Published Reports & Documentation</h2>
+                        <p>&bull; <strong>Algorithmic Efficiency Study:</strong> Comparative analysis of sorting and graph traversal speeds.</p>
+                        <p>&bull; <strong>Machine Learning Interpretability:</strong> Investigating decision boundary behaviors in black-box models.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VARIANT 3: Terminal CLI Shell -->
+            <div id="variant-3" class="variant-view">
+                <div class="inner-container">
+                    <div class="inner-card" style="border-top: 4px solid var(--pane-3);">
+                        <h2>Variant 3: Interactive Terminal Shell</h2>
+                        <p>Command-line interface designed for high-speed technical navigation through Ashmeet's development logs and system directories.</p>
+                        <div>
+                            <span class="badge-tag">Bash / Shell</span>
+                            <span class="badge-tag">Linux Systems</span>
+                            <span class="badge-tag">Git Version Control</span>
+                        </div>
+                    </div>
+                    <div class="terminal-box">
+                        <span class="terminal-prompt">ashmeet@portfolio-cli:~$</span> whoami<br>
+                        Ashmeet Singh - Data Science & AI Undergraduate<br><br>
+                        <span class="terminal-prompt">ashmeet@portfolio-cli:~$</span> cat skills.txt<br>
+                        [Python, Machine Learning, UI/UX, Data Structures, Git, Linux]<br><br>
+                        <span class="terminal-prompt">ashmeet@portfolio-cli:~$</span> status<br>
+                        System status: All variant modules operational & ready for deployment. $\blacksquare$
+                    </div>
+                </div>
+            </div>
+
+            <!-- VARIANT 4: Creative UI Showcase -->
+            <div id="variant-4" class="variant-view">
+                <div class="inner-container">
+                    <div class="inner-card" style="border-top: 4px solid var(--pane-4);">
+                        <h2>Variant 4: Creative UI & Sticker Showcase</h2>
+                        <p>A playful, vibrant showcase highlighting Ashmeet's creative design flexibility, interactive micro-animations, and modern front-end capabilities.</p>
+                        <div>
+                            <span class="badge-tag">UI/UX Design</span>
+                            <span class="badge-tag">CSS Animations</span>
+                            <span class="badge-tag">Interactive Graphics</span>
+                        </div>
+                    </div>
+                    <div class="inner-card">
+                        <h2>Design Philosophy</h2>
+                        <p>Combining rigorous analytical problem-solving with engaging, human-centric design interfaces that deliver seamless multi-platform experiences.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Script for Theme Toggle & Variant Modal Control -->
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const variantModal = document.getElementById('variantModal');
+        const modalTitle = document.getElementById('modalTitle');
+        
+        const sunPath = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+        const moonPath = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+            themeIcon.innerHTML = theme === 'light' ? moonPath : sunPath;
+        }
+
+        // Modal View Switcher Functions
+        function openVariant(variantId) {
+            // Hide all variant views inside modal
+            document.querySelectorAll('.variant-view').forEach(el => el.classList.remove('active'));
+            
+            // Show selected variant
+            const target = document.getElementById(variantId);
+            if (target) {
+                target.classList.add('active');
+            }
+
+            // Set modal title based on selection
+            let titles = {
+                'variant-1': '<span>🧠</span> Pane 01: Core AI & ML Variant',
+                'variant-2': '<span>📊</span> Pane 02: Academic Research Dossier',
+                'variant-3': '<span>💻</span> Pane 03: Interactive Terminal Shell',
+                'variant-4': '<span>✨</span> Pane 04: Creative UI & Showcase'
+            };
+            modalTitle.innerHTML = titles[variantId] || 'Variant View';
+
+            // Display modal
+            variantModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVariant() {
+            variantModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    </script>
 </body>
 </html>
