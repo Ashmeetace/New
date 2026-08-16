@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ashmeet Singh — Master Portfolio Hub</title>
-    <meta name="description" content="Explore Ashmeet Singh's personal portfolio variants and all four integrated interactive layouts in one self-contained hub file.">
+    <title>Ashmeet Singh — Windows Logo Quadrant Hub</title>
+    <meta name="description" content="Explore Ashmeet Singh's personal portfolio variants arranged in the four window panes of the classic Microsoft Windows logo layout.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -169,7 +169,7 @@
             margin: 0 auto;
         }
 
-        /* 10 Personal Skills Ticker */
+        /* Exactly 10 Personal Skills / Focus Ticker */
         .features-ticker {
             width: 100%;
             max-width: 650px;
@@ -217,7 +217,7 @@
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             border: 1px solid var(--card-border);
-            cursor: pointer;
+            text-decoration: none;
             color: var(--text-main);
             display: flex;
             flex-direction: column;
@@ -227,7 +227,6 @@
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.25);
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-            text-align: left;
         }
 
         .window-pane:hover {
@@ -236,17 +235,37 @@
             background: rgba(45, 55, 75, 0.95);
         }
 
-        .pane-1 { border-top: 4px solid var(--pane-1); }
-        .pane-1:hover { border-color: var(--pane-1); box-shadow: 0 15px 35px rgba(242, 80, 34, 0.3); }
+        .pane-1 {
+            border-top: 4px solid var(--pane-1);
+        }
+        .pane-1:hover {
+            border-color: var(--pane-1);
+            box-shadow: 0 15px 35px rgba(242, 80, 34, 0.3);
+        }
 
-        .pane-2 { border-top: 4px solid var(--pane-2); }
-        .pane-2:hover { border-color: var(--pane-2); box-shadow: 0 15px 35px rgba(127, 186, 0, 0.3); }
+        .pane-2 {
+            border-top: 4px solid var(--pane-2);
+        }
+        .pane-2:hover {
+            border-color: var(--pane-2);
+            box-shadow: 0 15px 35px rgba(127, 186, 0, 0.3);
+        }
 
-        .pane-3 { border-top: 4px solid var(--pane-3); }
-        .pane-3:hover { border-color: var(--pane-3); box-shadow: 0 15px 35px rgba(0, 164, 239, 0.3); }
+        .pane-3 {
+            border-top: 4px solid var(--pane-3);
+        }
+        .pane-3:hover {
+            border-color: var(--pane-3);
+            box-shadow: 0 15px 35px rgba(0, 164, 239, 0.3);
+        }
 
-        .pane-4 { border-top: 4px solid var(--pane-4); }
-        .pane-4:hover { border-color: var(--pane-4); box-shadow: 0 15px 35px rgba(255, 185, 0, 0.3); }
+        .pane-4 {
+            border-top: 4px solid var(--pane-4);
+        }
+        .pane-4:hover {
+            border-color: var(--pane-4);
+            box-shadow: 0 15px 35px rgba(255, 185, 0, 0.3);
+        }
 
         .pane-badge {
             position: absolute;
@@ -326,129 +345,6 @@
             text-decoration: underline;
         }
 
-        /* --- VARIANT FULL-SCREEN VIEWER MODAL --- */
-        #variantModal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(5, 8, 15, 0.92);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            z-index: 1000;
-            display: none;
-            flex-direction: column;
-            animation: fadeInSlide 0.3s ease-out;
-        }
-
-        .modal-header {
-            width: 100%;
-            padding: 12px 20px;
-            background: rgba(15, 23, 42, 0.9);
-            border-bottom: 1px solid var(--card-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        .modal-title-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-
-        .modal-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .back-hub-btn {
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid var(--card-border);
-            color: var(--text-main);
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .back-hub-btn:hover { background: rgba(51, 65, 85, 1); border-color: var(--pane-3); }
-
-        .modal-body {
-            flex-grow: 1;
-            width: 100%;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        /* Variant Embedded Internal Layout Classes */
-        .variant-view {
-            display: none;
-            width: 100%;
-            min-height: 100%;
-            padding: 30px 20px;
-        }
-        .variant-view.active {
-            display: block;
-        }
-
-        /* Common Styling inside Variant views */
-        .inner-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .inner-card {
-            background: rgba(30, 41, 59, 0.6);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(10px);
-        }
-        .inner-card h2 {
-            font-size: 1.4rem;
-            margin-bottom: 10px;
-            color: var(--text-main);
-        }
-        .inner-card p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-        .badge-tag {
-            display: inline-block;
-            padding: 4px 10px;
-            background: rgba(0, 164, 239, 0.2);
-            color: var(--pane-3);
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-right: 6px;
-            margin-bottom: 6px;
-        }
-
-        /* Terminal Variant Specific Styles */
-        .terminal-box {
-            background: #090d16;
-            border: 1px solid #1e293b;
-            border-radius: 8px;
-            font-family: 'Fira Code', monospace;
-            padding: 20px;
-            color: #38bdf8;
-            font-size: 0.85rem;
-            line-height: 1.6;
-        }
-        .terminal-prompt { color: #4ade80; }
-
         /* Footer Layout */
         footer {
             margin-top: 20px;
@@ -490,7 +386,7 @@
                 <rect x="14" y="14" width="7" height="7"></rect>
                 <rect x="3" y="14" width="7" height="7"></rect>
             </svg>
-            Ashmeet Singh Master Hub
+            Ashmeet Singh Personal Hub
         </div>
 
         <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark/Light Mode">
@@ -510,10 +406,10 @@
             </svg>
         </div>
         <h1>Ashmeet Singh</h1>
-        <p>Data Science & AI Undergraduate &bull; Select any window pane below to launch the respective interactive variant inside this single file.</p>
+        <p>Data Science & AI Undergraduate &bull; Click any window pane below to open the corresponding variant file.</p>
     </header>
 
-    <!-- 10 Personal Ticker Items -->
+    <!-- Exactly 10 Personal Ticker Items -->
     <div class="features-ticker">
         <div class="feature-chip"><span>✦</span> Data Science</div>
         <div class="feature-chip"><span>✦</span> AI & ML</div>
@@ -524,14 +420,14 @@
         <div class="feature-chip"><span>✦</span> Analytics</div>
         <div class="feature-chip"><span>✦</span> Problem Solver</div>
         <div class="feature-chip"><span>✦</span> Research</div>
-        <div class="feature-chip"><span>✦</span> Single-File Hub</div>
+        <div class="feature-chip"><span>✦</span> Portfolio Hub</div>
     </div>
 
-    <!-- --- WINDOWS LOGO 4-PANE GRID LAYOUT --- -->
+    <!-- --- WINDOWS LOGO 4-PANE GRID LAYOUT (Linked directly to Variant/index_X.html files) --- -->
     <div class="windows-logo-container">
         
-        <!-- Pane 1: Top-Left (Variant 1 - Glassmorphic Core AI) -->
-        <div class="window-pane pane-1" onclick="openVariant('variant-1')">
+        <!-- Pane 1: Top-Left -> Variant/index_1.html -->
+        <a href="Variant/index_1.html" class="window-pane pane-1">
             <div class="pane-badge badge-1">Pane 01 &bull; Core AI</div>
             <div class="pane-content">
                 <div class="pane-header-row">
@@ -542,12 +438,12 @@
             </div>
             <div class="pane-footer-row">
                 <span>📂 Projects</span>
-                <span class="action-prompt">View Models &rarr;</span>
+                <span class="action-prompt">Open Variant 1 &rarr;</span>
             </div>
-        </div>
+        </a>
 
-        <!-- Pane 2: Top-Right (Variant 2 - Academic Research Dossier) -->
-        <div class="window-pane pane-2" onclick="openVariant('variant-2')">
+        <!-- Pane 2: Top-Right -> Variant/index_2.html -->
+        <a href="Variant/index_2.html" class="window-pane pane-2">
             <div class="pane-badge badge-2">Pane 02 &bull; Research</div>
             <div class="pane-content">
                 <div class="pane-header-row">
@@ -558,12 +454,12 @@
             </div>
             <div class="pane-footer-row">
                 <span>📄 Research</span>
-                <span class="action-prompt">Read Papers &rarr;</span>
+                <span class="action-prompt">Open Variant 2 &rarr;</span>
             </div>
-        </div>
+        </a>
 
-        <!-- Pane 3: Bottom-Left (Variant 3 - Terminal CLI Shell) -->
-        <div class="window-pane pane-3" onclick="openVariant('variant-3')">
+        <!-- Pane 3: Bottom-Left -> Variant/index_3.html -->
+        <a href="Variant/index_3.html" class="window-pane pane-3">
             <div class="pane-badge badge-3">Pane 03 &bull; Code</div>
             <div class="pane-content">
                 <div class="pane-header-row">
@@ -574,12 +470,12 @@
             </div>
             <div class="pane-footer-row">
                 <span>⚡ Shell</span>
-                <span class="action-prompt">Open Terminal &rarr;</span>
+                <span class="action-prompt">Open Variant 3 &rarr;</span>
             </div>
-        </div>
+        </a>
 
-        <!-- Pane 4: Bottom-Right (Variant 4 - Creative UI Showcase) -->
-        <div class="window-pane pane-4" onclick="openVariant('variant-4')">
+        <!-- Pane 4: Bottom-Right -> Variant/index_4.html -->
+        <a href="Variant/index_4.html" class="window-pane pane-4">
             <div class="pane-badge badge-4">Pane 04 &bull; Creative</div>
             <div class="pane-content">
                 <div class="pane-header-row">
@@ -590,130 +486,24 @@
             </div>
             <div class="pane-footer-row">
                 <span>🎨 Visuals</span>
-                <span class="action-prompt">Explore UI &rarr;</span>
+                <span class="action-prompt">Open Variant 4 &rarr;</span>
             </div>
-        </div>
+        </a>
 
     </div>
 
     <footer>
         <div class="footer-badge">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-            Ashmeet Singh Portfolio Hub 2026
+            Ashmeet Singh Portfolio 2026
         </div>
         &copy; Ashmeet Singh &bull; All Rights Reserved
     </footer>
 
-
-    <!-- --- EMBEDDED MODAL CONTAINER FOR ALL 4 VARIANTS --- -->
-    <div id="variantModal">
-        <div class="modal-header">
-            <div class="modal-title-info" id="modalTitle">
-                <span>💎</span> Variant View
-            </div>
-            <div class="modal-controls">
-                <button class="back-hub-btn" onclick="closeVariant()">
-                    &larr; Back to Hub
-                </button>
-            </div>
-        </div>
-        <div class="modal-body">
-
-            <!-- VARIANT 1: Glassmorphic AI Core -->
-            <div id="variant-1" class="variant-view">
-                <div class="inner-container">
-                    <div class="inner-card" style="border-top: 4px solid var(--pane-1);">
-                        <h2>Variant 1: Glassmorphic AI & Data Science</h2>
-                        <p>Welcome to Ashmeet Singh's primary AI research portal. This variant highlights advanced data science projects, neural network design, and predictive modeling algorithms built with Python and modern ML frameworks.</p>
-                        <div>
-                            <span class="badge-tag">Python</span>
-                            <span class="badge-tag">TensorFlow</span>
-                            <span class="badge-tag">PyTorch</span>
-                            <span class="badge-tag">Data Analysis</span>
-                        </div>
-                    </div>
-                    <div class="inner-card">
-                        <h2>Key Projects & Focus Areas</h2>
-                        <p>&bull; <strong>Neural Network Classifier:</strong> High-accuracy deep learning architecture for predictive classification.</p>
-                        <p>&bull; <strong>Automated Data Pipeline:</strong> End-to-end data ingestion, cleaning, and exploratory data analysis framework.</p>
-                        <p>&bull; <strong>Statistical Modeling:</strong> Advanced stochastic modeling and regression analysis for real-world datasets.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VARIANT 2: Academic & Research Dossier -->
-            <div id="variant-2" class="variant-view">
-                <div class="inner-container">
-                    <div class="inner-card" style="border-top: 4px solid var(--pane-2);">
-                        <h2>Variant 2: Academic Dossier & Research Papers</h2>
-                        <p>Structured academic document layout detailing Ashmeet Singh's rigorous theoretical background, scientific publications, technical reports, and algorithmic evaluations.</p>
-                        <div>
-                            <span class="badge-tag">Research Writing</span>
-                            <span class="badge-tag">LaTeX</span>
-                            <span class="badge-tag">Algorithm Design</span>
-                            <span class="badge-tag">Peer Review</span>
-                        </div>
-                    </div>
-                    <div class="inner-card">
-                        <h2>Published Reports & Documentation</h2>
-                        <p>&bull; <strong>Algorithmic Efficiency Study:</strong> Comparative analysis of sorting and graph traversal speeds.</p>
-                        <p>&bull; <strong>Machine Learning Interpretability:</strong> Investigating decision boundary behaviors in black-box models.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VARIANT 3: Terminal CLI Shell -->
-            <div id="variant-3" class="variant-view">
-                <div class="inner-container">
-                    <div class="inner-card" style="border-top: 4px solid var(--pane-3);">
-                        <h2>Variant 3: Interactive Terminal Shell</h2>
-                        <p>Command-line interface designed for high-speed technical navigation through Ashmeet's development logs and system directories.</p>
-                        <div>
-                            <span class="badge-tag">Bash / Shell</span>
-                            <span class="badge-tag">Linux Systems</span>
-                            <span class="badge-tag">Git Version Control</span>
-                        </div>
-                    </div>
-                    <div class="terminal-box">
-                        <span class="terminal-prompt">ashmeet@portfolio-cli:~$</span> whoami<br>
-                        Ashmeet Singh - Data Science & AI Undergraduate<br><br>
-                        <span class="terminal-prompt">ashmeet@portfolio-cli:~$</span> cat skills.txt<br>
-                        [Python, Machine Learning, UI/UX, Data Structures, Git, Linux]<br><br>
-                        <span class="terminal-prompt">ashmeet@portfolio-cli:~$</span> status<br>
-                        System status: All variant modules operational & ready for deployment. $\blacksquare$
-                    </div>
-                </div>
-            </div>
-
-            <!-- VARIANT 4: Creative UI Showcase -->
-            <div id="variant-4" class="variant-view">
-                <div class="inner-container">
-                    <div class="inner-card" style="border-top: 4px solid var(--pane-4);">
-                        <h2>Variant 4: Creative UI & Sticker Showcase</h2>
-                        <p>A playful, vibrant showcase highlighting Ashmeet's creative design flexibility, interactive micro-animations, and modern front-end capabilities.</p>
-                        <div>
-                            <span class="badge-tag">UI/UX Design</span>
-                            <span class="badge-tag">CSS Animations</span>
-                            <span class="badge-tag">Interactive Graphics</span>
-                        </div>
-                    </div>
-                    <div class="inner-card">
-                        <h2>Design Philosophy</h2>
-                        <p>Combining rigorous analytical problem-solving with engaging, human-centric design interfaces that deliver seamless multi-platform experiences.</p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <!-- Script for Theme Toggle & Variant Modal Control -->
+    <!-- Script for Theme Toggle Control -->
     <script>
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
-        const variantModal = document.getElementById('variantModal');
-        const modalTitle = document.getElementById('modalTitle');
         
         const sunPath = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
         const moonPath = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
@@ -733,36 +523,6 @@
 
         function updateIcon(theme) {
             themeIcon.innerHTML = theme === 'light' ? moonPath : sunPath;
-        }
-
-        // Modal View Switcher Functions
-        function openVariant(variantId) {
-            // Hide all variant views inside modal
-            document.querySelectorAll('.variant-view').forEach(el => el.classList.remove('active'));
-            
-            // Show selected variant
-            const target = document.getElementById(variantId);
-            if (target) {
-                target.classList.add('active');
-            }
-
-            // Set modal title based on selection
-            let titles = {
-                'variant-1': '<span>🧠</span> Pane 01: Core AI & ML Variant',
-                'variant-2': '<span>📊</span> Pane 02: Academic Research Dossier',
-                'variant-3': '<span>💻</span> Pane 03: Interactive Terminal Shell',
-                'variant-4': '<span>✨</span> Pane 04: Creative UI & Showcase'
-            };
-            modalTitle.innerHTML = titles[variantId] || 'Variant View';
-
-            // Display modal
-            variantModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeVariant() {
-            variantModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
         }
     </script>
 </body>
